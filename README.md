@@ -1,1 +1,1 @@
-<h1 align="center">Stable ethereum rpc</h1>
+<h1 align="center">Stable Ethereum Rpc</h1>

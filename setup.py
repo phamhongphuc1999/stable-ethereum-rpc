@@ -11,9 +11,9 @@ setuptools.setup(
     description="Stable ethereum rpc",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/phamhongphuc1999/PTokenQuery",
+    url="https://github.com/phamhongphuc1999/stable-ethereum-rpc",
     project_urls={
-        "Bug Tracker": "https://github.com/phamhongphuc1999/PTokenQuery",
+        "Bug Tracker": "https://github.com/phamhongphuc1999/stable-ethereum-rpc",
     },
     classifiers=[
         "Programming Language :: Python :: 3",
