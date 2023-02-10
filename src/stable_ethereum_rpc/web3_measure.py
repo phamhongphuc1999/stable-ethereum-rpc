@@ -20,14 +20,6 @@ class Web3Measure:
         current_timestamp = time.time()
         distance = current_timestamp - _timestamp
         time_to_run = end_time - start_time
-        print(
-            {
-                "result": distance * distance * time_to_run,
-                "distance": distance,
-                "time": time_to_run,
-                "isOk": 0 <= distance <= self.max_timestamp,
-            }
-        )
         return {
             "result": distance * time_to_run,
             "distance": distance,

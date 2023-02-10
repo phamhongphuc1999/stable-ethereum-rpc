@@ -1,5 +1,5 @@
 from stable_ethereum_rpc.config import AppConfig, ChainId
-from stable_ethereum_rpc.web3_list import Web3List
+from stable_ethereum_rpc.web3_list import Web3List, Web3Entity
 
 
 class StableWeb3:
@@ -27,15 +27,40 @@ class StableWeb3:
             self._web3_list = Web3List(raw_web3_list, chain_id, max_timestamp)
         else:
             raise Exception("Your web3 list is empty")
+        self._stable_web3: Web3Entity or None = None
+
+    def _init_best_stable_web3(self, **kwargs):
+        self._stable_web3 = self._web3_list.get_best_stable_web3(**kwargs)
+
+    def _init_sufficient_stable_web3(self, **kwargs):
+        self._stable_web3 = self._web3_list.get_sufficient_web3(**kwargs)
+
+    def init_web3(self, mode, **kwargs):
+        if mode == "best":
+            self._init_best_stable_web3(**kwargs)
+        else:
+            self._init_sufficient_stable_web3(**kwargs)
 
     def web3(self):
-        return self._web3_list.web3()
+        return self._stable_web3.web3
 
     def web3_url(self):
-        return self._web3_list.web3_url()
+        return self._stable_web3.rpc
 
     def add_web3(self, provider_url: str, _type: str, upsert=False) -> bool:
         return self._web3_list.add_web3(provider_url, _type, upsert)
 
     def remove_web3(self, provider_url: str) -> bool:
         return self._web3_list.remove_web3(provider_url)
+
+    def check_stable_web3(self, **kwargs):
+        result = self._web3_list.get_sufficient_web3(web3=self._stable_web3.rpc, **kwargs)
+        if result:
+            self._stable_web3 = result
+
+    def get_best_stable_web3(self, **kwargs):
+        return self._web3_list.get_best_stable_web3(**kwargs)
+
+    def set_best_stable_web3(self, **kwargs):
+        result = self._web3_list.get_best_stable_web3(**kwargs)
+        self._stable_web3 = result
