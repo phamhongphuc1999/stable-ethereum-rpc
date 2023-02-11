@@ -40,7 +40,7 @@ class Web3List:
                 check = False
             else:
                 if counter < _len - 1:
-                    counter += counter
+                    counter = counter + 1
                 else:
                     counter = 0
                 if counter == start_index:
@@ -48,20 +48,21 @@ class Web3List:
                     result = None
         return result
 
-    def get_best_web3(self, **kwargs) -> Web3Entity:
+    def get_best_web3(self, **kwargs) -> Web3Entity or None:
         web3_callback_func = kwargs.get("func")
         web3_value = list(self._list.values())
-        _result: Web3Entity = web3_value[0]
-        _temp_result = self._measure.measure(_result)
-        _measure_param = _temp_result["result"]
-        if callable(web3_callback_func):
-            web3_callback_func(_result, _temp_result)
-        for web3_item in web3_value[1:]:
+        _result: Web3Entity or None = None
+        _measure_param = None
+        for web3_item in web3_value:
             temp_measure = self._measure.measure(web3_item)
             if callable(web3_callback_func):
                 web3_callback_func(web3_item, temp_measure)
             if temp_measure["isOk"]:
-                if temp_measure["result"] < _measure_param:
+                if _measure_param:
+                    if temp_measure["result"] < _measure_param:
+                        _result = web3_item
+                        _measure_param = temp_measure["result"]
+                else:
                     _result = web3_item
                     _measure_param = temp_measure["result"]
         return _result

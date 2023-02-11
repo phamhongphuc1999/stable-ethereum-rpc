@@ -28,10 +28,11 @@ class StableWeb3:
             self._web3_list: Web3List = web3_list
             self.chain_id = self._web3_list.chain_id
         mode = kwargs.get("mode")
+        func = kwargs.get("func")
         if mode == "best":
-            self._stable_web3: Web3Entity = self._web3_list.get_best_web3()
+            self._stable_web3: Web3Entity = self._web3_list.get_best_web3(func=func)
         else:
-            self._stable_web3: Web3Entity = self._web3_list.get_sufficient_web3()
+            self._stable_web3: Web3Entity = self._web3_list.get_sufficient_web3(func=func)
 
     def _init_best_stable_web3(self, **kwargs):
         self._stable_web3 = self._web3_list.get_best_web3(**kwargs)
