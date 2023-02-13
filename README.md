@@ -14,7 +14,7 @@ pip3 install stable-ethereum-rpc
 
 ### Usage <a name="usage"></a>
 
-- The simplest example is using [StableWeb3](./src/stable_ethereum_rpc/stable_web3/__init__.py)
+- The simplest example is using [StableWeb3](https://github.com/phamhongphuc1999/stable-ethereum-rpc/blob/main/src/stable_ethereum_rpc/stable_web3/__init__.py)
 
 ```python
 raw_web3_list = [
@@ -47,4 +47,20 @@ if "currentRpc" in result:
 print(_message)
 ```
 
-- You can see complete example in [here](./example/simple.py)
+- You can see complete example in [here](https://github.com/phamhongphuc1999/stable-ethereum-rpc/blob/main/example/simple.py)
+
+- We still support to schedule to check web3
+
+```python
+stable_web3 = AvailableStableWeb3(
+    web3_list=raw_web3_list,
+    func=web3_callback_func,
+    callback_func=available_callback_func,
+    job_mode="best"
+)
+print(f"rpc: {stable_web3.web3().provider_url}")
+stable_web3.run_job(trigger="interval", args=[], seconds=30, max_instances=2)
+signal.pause()
+```
+
+- You can see complete example in [here](https://github.com/phamhongphuc1999/stable-ethereum-rpc/blob/main/example/available_example.py)

@@ -20,7 +20,7 @@ class Web3List(BaseWeb3List):
             start_index = 0
         counter = start_index
         check = True
-        result = self._list[web3_keys[start_index]]
+        result = None
         while check:
             _provider_url = web3_keys[counter]
             _web3_entity = self._list[_provider_url]

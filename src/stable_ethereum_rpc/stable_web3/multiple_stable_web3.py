@@ -55,3 +55,47 @@ class MultipleStableWeb3:
 
     def remove_web3(self, provider_url: str) -> bool:
         return self._web3_list.remove_web3(provider_url)
+
+    @staticmethod
+    def _is_equal(web3_list1: List[Web3Entity], web3_list2: List[Web3Entity]):
+        _len1 = len(web3_list1)
+        _len2 = len(web3_list2)
+        if _len1 != _len2:
+            return False
+        counter = 0
+        while counter < _len1:
+            item1 = web3_list1[counter]
+            item2 = web3_list2[counter]
+            if item1.provider_url != item2.provider_url:
+                return False
+            counter += 1
+        return True
+
+    def get_sufficient_web3(self, **kwargs):
+        provider_url = None
+        if len(self._stable_web3) > 0:
+            provider_url = self._stable_web3[0].provider_url
+        result = self._web3_list.get_sufficient_web3(provider_url=provider_url, **kwargs)
+        if MultipleStableWeb3._is_equal(result, self._stable_web3):
+            return {"status": False, "rpc": self._stable_web3}
+        else:
+            return {"status": True, "currentRpc": self._stable_web3, "rpc": result}
+
+    def set_sufficient_web3(self, **kwargs):
+        result = self.get_sufficient_web3(**kwargs)
+        if result["status"]:
+            self._stable_web3 = result["rpc"]
+        return result
+
+    def get_best_web3(self, **kwargs):
+        result = self._web3_list.get_best_web3(**kwargs)
+        if MultipleStableWeb3._is_equal(result, self._stable_web3):
+            return {"status": False, "rpc": self._stable_web3}
+        else:
+            return {"status": True, "currentRpc": self._stable_web3, "rpc": result}
+
+    def set_best_web3(self, **kwargs):
+        result = self.get_best_web3(**kwargs)
+        if result["status"]:
+            self._stable_web3 = result["rpc"]
+        return result
