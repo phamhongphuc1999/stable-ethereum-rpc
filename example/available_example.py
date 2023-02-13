@@ -2,7 +2,7 @@ import signal
 import time
 
 from stable_ethereum_rpc.stable_web3.available_stable_web3 import AvailableStableWeb3
-from stable_ethereum_rpc.web3_list import Web3Entity
+from stable_ethereum_rpc.web3_entity import Web3Entity
 
 raw_web3_list = [
     "https://bsc-dataseed234567.ninicoin.io",

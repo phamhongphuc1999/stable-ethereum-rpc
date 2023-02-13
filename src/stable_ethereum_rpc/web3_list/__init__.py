@@ -1,10 +1,10 @@
 from typing import List, Dict
 
-from stable_ethereum_rpc.web3_list.web3_entity import SimpleWeb3Entity, Web3Entity
+from stable_ethereum_rpc.web3_entity import SimpleWeb3Entity, Web3Entity
 from stable_ethereum_rpc.web3_measure import Web3Measure
 
 
-class Web3List:
+class BaseWeb3List:
     def __init__(self, chain_id: int, web3_list: List[SimpleWeb3Entity or str], **kwargs):
         self.chain_id = chain_id
         self._list: Dict[str, Web3Entity] = {}
@@ -16,55 +16,21 @@ class Web3List:
             else:
                 self.add_web3(web3_item)
 
-    def get_sufficient_web3(self, **kwargs) -> Web3Entity or None:
+    def size(self):
         web3_keys = list(self._list.keys())
         _len = len(web3_keys)
-        start_index: int = kwargs.get("start_index")
-        provider_url: str = kwargs.get("provider_url")
-        web3_callback_func = kwargs.get("func")
-        if provider_url:
-            start_index = web3_keys.index(provider_url)
-        elif start_index is None or start_index >= _len:
-            start_index = 0
-        counter = start_index
-        check = True
-        result = self._list[web3_keys[start_index]]
-        while check:
-            _provider_url = web3_keys[counter]
-            _web3_entity = self._list[_provider_url]
-            measure_param = self._measure.measure(_web3_entity)
-            if callable(web3_callback_func):
-                web3_callback_func(_web3_entity, measure_param)
-            if measure_param["isOk"]:
-                result = _web3_entity
-                check = False
-            else:
-                if counter < _len - 1:
-                    counter = counter + 1
-                else:
-                    counter = 0
-                if counter == start_index:
-                    check = False
-                    result = None
-        return result
+        return _len
 
-    def get_best_web3(self, **kwargs) -> Web3Entity or None:
+    def measure_all(self, **kwargs):
         web3_callback_func = kwargs.get("func")
-        web3_value = list(self._list.values())
-        _result: Web3Entity or None = None
-        _measure_param = None
-        for web3_item in web3_value:
-            temp_measure = self._measure.measure(web3_item)
+        web3_keys = list(self._list.keys())
+        _result = {}
+        for web_key in web3_keys:
+            temp_measure = self._measure.measure(self._list[web_key])
+            web3_item = self._list[web_key]
             if callable(web3_callback_func):
                 web3_callback_func(web3_item, temp_measure)
-            if temp_measure["isOk"]:
-                if _measure_param:
-                    if temp_measure["result"] < _measure_param:
-                        _result = web3_item
-                        _measure_param = temp_measure["result"]
-                else:
-                    _result = web3_item
-                    _measure_param = temp_measure["result"]
+                _result[web_key] = {"measure": temp_measure, "item": web3_item}
         return _result
 
     def add_web3(self, web3_item: SimpleWeb3Entity, upsert=False) -> bool:

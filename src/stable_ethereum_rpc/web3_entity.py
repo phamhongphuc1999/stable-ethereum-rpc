@@ -52,7 +52,7 @@ class Web3Entity:
 
     @staticmethod
     def create_http_provider(provider_url: str) -> Web3:
-        _web3 = Web3(Web3.HTTPProvider(provider_url))
+        _web3 = Web3(Web3.HTTPProvider(provider_url, request_kwargs={"timeout": 1}))
         _web3.middleware_onion.inject(geth_poa_middleware, layer=0)
         return _web3
 
