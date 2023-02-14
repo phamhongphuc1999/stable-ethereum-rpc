@@ -9,7 +9,7 @@
 ### Installation <a name="installation"></a>
 
 ```shell
-pip3 install stable-ethereum-rpc
+pip install stable-ethereum-rpc
 ```
 
 ### Usage <a name="usage"></a>
