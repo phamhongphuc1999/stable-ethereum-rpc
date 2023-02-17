@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="stable-ethereum-rpc",
-    version="0.0.3",
+    version="0.0.4",
     author="Phạm Hồng Phúc",
     author_email="phamhongphuc12atm1@gmail.com",
     description="Stable Ethereum RPC",

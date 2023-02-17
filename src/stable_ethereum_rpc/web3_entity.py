@@ -19,6 +19,9 @@ class Web3Entity:
         self._sleep: int or None = None
         self.error = None
 
+    def get_web3(self) -> Web3:
+        return self._web3
+
     def is_available(self) -> bool:
         return self._sleep is not None
 

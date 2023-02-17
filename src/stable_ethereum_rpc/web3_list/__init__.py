@@ -30,7 +30,7 @@ class BaseWeb3List:
             web3_item = self._list[web_key]
             if callable(web3_callback_func):
                 web3_callback_func(web3_item, temp_measure)
-                _result[web_key] = {"measure": temp_measure, "item": web3_item}
+            _result[web_key] = {"measure": temp_measure, "item": web3_item}
         return _result
 
     def add_web3(self, web3_item: SimpleWeb3Entity, upsert=False) -> bool:
