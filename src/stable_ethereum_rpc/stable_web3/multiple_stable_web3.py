@@ -47,7 +47,7 @@ class MultipleStableWeb3:
         else:
             self._init_sufficient_web3(**kwargs)
 
-    def web3(self):
+    def web3_entities(self):
         return self._stable_web3
 
     def add_web3(self, web3_item: SimpleWeb3Entity, upsert=False) -> bool:

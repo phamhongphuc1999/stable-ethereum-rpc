@@ -30,7 +30,7 @@ def web3_callback_func(web3: Web3Entity, params: object):
     print(f"web3: {web3.provider_url}, result: {params}")
 
 stable_web3 = StableWeb3(web3_list=raw_web3_list, func=web3_callback_func)
-print(f"rpc: {stable_web3.web3().provider_url}")
+print(f"rpc: {stable_web3.web3_entity().provider_url}")
 time.sleep(10)
 print("Set best web3=========================================")
 result1 = stable_web3.set_best_web3(func=web3_callback_func)

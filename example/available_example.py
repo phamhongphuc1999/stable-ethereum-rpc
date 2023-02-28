@@ -18,6 +18,6 @@ if __name__ == "__main__":
     stable_web3 = AvailableStableWeb3(
         web3_list=raw_web3_list, func=web3_callback_func, callback_func=available_callback_func, job_mode="best"
     )
-    print(f"rpc: {stable_web3.web3().provider_url}")
+    print(f"rpc: {stable_web3.web3_entity().provider_url}")
     stable_web3.run_job(trigger="interval", args=[], seconds=30, max_instances=2)
     signal.pause()

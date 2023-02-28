@@ -6,7 +6,7 @@ from stable_ethereum_rpc.stable_web3.multiple_stable_web3 import MultipleStableW
 
 if __name__ == "__main__":
     multiple_web3 = MultipleStableWeb3(web3_list=raw_web3_list, func=web3_callback_func)
-    stable_list = multiple_web3.web3()
+    stable_list = multiple_web3.web3_entities()
     for item in stable_list:
         print(f"rpc: {item.provider_url}")
     time.sleep(10)
